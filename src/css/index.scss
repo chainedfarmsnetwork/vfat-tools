@@ -10,6 +10,7 @@ input,
 pre {
   text-align: center;
   font-family: 'Teko', monospace;
+  font-size: 1.2rem;
 }
 
 .border {
@@ -100,6 +101,10 @@ pre {
 
   a {
     color: #e8b000;
+    transition: 0.1s all linear;
+    &:hover {
+      color: rgb(194, 224, 0);
+    }
   }
 
   .border {
@@ -180,7 +185,7 @@ code {
   content: '.loader--2';
   display: inline-block;
   vertical-align: middle;
-  font-size: 0.7em;
+  font-size: 2rem;
   font-weight: 200;
   margin-left: 10px;
   background-color: #e1e1e1;
@@ -202,7 +207,7 @@ code {
   content: '.loader--3';
   display: inline-block;
   vertical-align: middle;
-  font-size: 0.7em;
+  font-size: 2rem;
   font-weight: 200;
   margin-left: 10px;
   background-color: #e1e1e1;
@@ -224,7 +229,7 @@ code {
   content: '.loader--4';
   display: inline-block;
   vertical-align: middle;
-  font-size: 0.7em;
+  font-size: 2rem;
   font-weight: 200;
   margin-left: 10px;
   background-color: #e1e1e1;
@@ -246,7 +251,7 @@ code {
   content: '.loader--5';
   display: inline-block;
   vertical-align: middle;
-  font-size: 0.7em;
+  font-size: 2rem;
   font-weight: 200;
   margin-left: 10px;
   background-color: #e1e1e1;
@@ -268,7 +273,7 @@ code {
   content: '.loader--6';
   display: inline-block;
   vertical-align: middle;
-  font-size: 0.7em;
+  font-size: 2rem;
   font-weight: 200;
   margin-left: 10px;
   background-color: #e1e1e1;
@@ -290,7 +295,7 @@ code {
   content: '.loader--7';
   display: inline-block;
   vertical-align: middle;
-  font-size: 0.7em;
+  font-size: 2rem;
   font-weight: 200;
   margin-left: 10px;
   background-color: #e1e1e1;
