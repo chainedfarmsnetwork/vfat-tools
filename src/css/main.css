@@ -1,15 +1,14 @@
 body {
-    font-family: monospace;
+    font-family: 'Teko', monospace;
 }
 
 @media (prefers-color-scheme: dark) {
     body {
-        background-color: #272727;
-        color: #dddddd;
+        background-color: #343135;
+        color: #F9F1E0;
     }
-
     a {
-        color: #f1f1f1;
+        color: #eb8000;
     }
 }
 
@@ -60,13 +59,16 @@ code {
     color: #ccc;
     font-size: 22px;
 }
+
 .loader-home div {
     width: 100%;
     font-weight: 700;
 }
-.loader-home div + div {
+
+.loader-home div+div {
     margin-top: 50px;
 }
+
 .loader--1:before {
     content: '';
     -webkit-animation: anim1 300ms steps(1, end) infinite;
@@ -79,6 +81,7 @@ code {
     -webkit-animation: anim2 700ms steps(1, end) infinite;
     animation: anim2 700ms steps(1, end) infinite;
 }
+
 .loader--2:after {
     content: ".loader--2";
     display: inline-block;
@@ -95,12 +98,14 @@ code {
     -ms-user-select: all;
     user-select: all;
 }
+
 .loader--3:before {
     content: '';
     color: #122222;
     -webkit-animation: anim3 700ms steps(1, end) infinite;
     animation: anim3 700ms steps(1, end) infinite;
 }
+
 .loader--3:after {
     content: ".loader--3";
     display: inline-block;
@@ -117,12 +122,14 @@ code {
     -ms-user-select: all;
     user-select: all;
 }
+
 .loader--4:before {
     content: '';
     color: #122222;
     -webkit-animation: anim4 700ms steps(1, end) infinite;
     animation: anim4 700ms steps(1, end) infinite;
 }
+
 .loader--4:after {
     content: ".loader--4";
     display: inline-block;
@@ -139,12 +146,14 @@ code {
     -ms-user-select: all;
     user-select: all;
 }
+
 .loader--5:before {
     content: '';
     color: #122222;
     -webkit-animation: anim5 700ms steps(1, end) infinite;
     animation: anim5 700ms steps(1, end) infinite;
 }
+
 .loader--5:after {
     content: ".loader--5";
     display: inline-block;
@@ -161,12 +170,14 @@ code {
     -ms-user-select: all;
     user-select: all;
 }
+
 .loader--6:before {
     content: '';
     color: #122222;
     -webkit-animation: anim6 700ms steps(1, end) infinite;
     animation: anim6 700ms steps(1, end) infinite;
 }
+
 .loader--6:after {
     content: ".loader--6";
     display: inline-block;
@@ -183,12 +194,14 @@ code {
     -ms-user-select: all;
     user-select: all;
 }
+
 .loader--7:before {
     content: '';
     color: #122222;
     -webkit-animation: anim7 700ms steps(1, end) infinite;
     animation: anim7 700ms steps(1, end) infinite;
 }
+
 .loader--7:after {
     content: ".loader--7";
     display: inline-block;
@@ -241,6 +254,7 @@ code {
         content: "[...=]";
     }
 }
+
 @-webkit-keyframes anim2 {
     0%, 100% {
         content: "{/////}";
@@ -258,6 +272,7 @@ code {
         content: "{////~}";
     }
 }
+
 @keyframes anim2 {
     0%, 100% {
         content: "{/////}";
@@ -275,6 +290,7 @@ code {
         content: "{////~}";
     }
 }
+
 @-webkit-keyframes anim3 {
     0%, 100% {
         content: "(●)";
@@ -283,6 +299,7 @@ code {
         content: "(⚬)";
     }
 }
+
 @keyframes anim3 {
     0%, 100% {
         content: "(●)";
@@ -291,6 +308,7 @@ code {
         content: "(⚬)";
     }
 }
+
 @-webkit-keyframes anim4 {
     0%, 100% {
         content: "↑";
@@ -317,6 +335,7 @@ code {
         content: "↖";
     }
 }
+
 @keyframes anim4 {
     0%, 100% {
         content: "↑";
@@ -343,6 +362,7 @@ code {
         content: "↖";
     }
 }
+
 @-webkit-keyframes anim5 {
     0%, 100% {
         content: "⊏";
@@ -357,6 +377,7 @@ code {
         content: "⊔";
     }
 }
+
 @keyframes anim5 {
     0%, 100% {
         content: "⊏";
@@ -371,6 +392,7 @@ code {
         content: "⊔";
     }
 }
+
 @-webkit-keyframes anim6 {
     0%, 100% {
         content: "×";
@@ -379,6 +401,7 @@ code {
         content: "+";
     }
 }
+
 @keyframes anim6 {
     0%, 100% {
         content: "×";
@@ -387,6 +410,7 @@ code {
         content: "+";
     }
 }
+
 @-webkit-keyframes anim7 {
     0%, 100% {
         content: "☰";
@@ -407,6 +431,7 @@ code {
         content: "☴";
     }
 }
+
 @keyframes anim7 {
     0%, 100% {
         content: "☰";
