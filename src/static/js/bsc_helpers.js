@@ -1535,8 +1535,7 @@ async function loadBscSynthetixPoolInfo(
   }
 
   var newPriceAddresses = stakeToken.tokens.filter(
-    x =>
-      x.toLowerCase() != '0xb34ab2f65c6e4f764ffe740ab83f982021faed6d' && !getParameterCaseInsensitive(prices, x) //BSG can't be retrieved from Coingecko
+    x => x.toLowerCase() != '0xb34ab2f65c6e4f764ffe740ab83f982021faed6d' && !getParameterCaseInsensitive(prices, x) //BSG can't be retrieved from Coingecko
   )
   var newPrices = await lookUpTokenPrices(newPriceAddresses)
   for (const key in newPrices) {
@@ -1796,8 +1795,22 @@ async function loadBscChefContract(
 
   _print('Finished reading smart contracts.\n')
 
+  function insertRowInTable(table, cellContent, header = false) {
+    trow = table.insertRow(-1)
+    cell = header ? document.createElement('th') : document.createElement('td')
+    cell.innerHTML = cellContent
+    trow.appendChild(cell)
+  }
+
   let aprs = []
   for (i = 0; i < poolCount; i++) {
+    let poolTable = document.createElement('table')
+    id = `${i}-table`
+    poolTable.id = id
+    document.body.appendChild(poolTable)
+
+    poolTable = document.getElementById(`${i}-table`)
+
     if (poolPrices[i]) {
       const apr = printChefPool(
         App,
@@ -1817,7 +1830,9 @@ async function loadBscChefContract(
         null,
         'bsc',
         poolInfos[i].depositFee,
-        poolInfos[i].withdrawFee
+        poolInfos[i].withdrawFee,
+        poolTable,
+        insertRowInTable
       )
       aprs.push(apr)
     }
@@ -1908,6 +1923,7 @@ const bscTokens = [
   {id: 'gambit', symbol: 'GMT', contract: '0x99e92123eb77bc8f999316f622e5222498438784'},
   {id: 'alien-worlds-bsc', symbol: 'TLM', contract: '0x2222227e22102fe3322098e4cbfe18cfebd57c95'},
   {id: 'ten', symbol: 'TENFI', contract: '0xd15c444f1199ae72795eba15e8c1db44e47abf62'},
+  {id: 'cfn', symbol: 'CFN', contract: '0x169417B36a13088A978f03d9c6bED2e7F543eA93'},
 ]
 
 async function getBscPrices() {

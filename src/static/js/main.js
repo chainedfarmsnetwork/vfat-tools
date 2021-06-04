@@ -309,7 +309,9 @@ const CFN_CHEF_ABI = [
 async function main() {
   const App = await init_ethers()
 
-  _print(`Initialized ${App.YOUR_ADDRESS}\n`)
+  _print(
+    `Initialized <a href="https://bscscan.com/address/${App.YOUR_ADDRESS}" target="_blank">${App.YOUR_ADDRESS}</a>`
+  )
   _print('Reading smart contracts...\n')
 
   const CFN_CHEF_ADDR = '0x8abe33db403c7fcd2ff9323ea712857d86804ba6'
