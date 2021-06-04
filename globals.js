@@ -10,7 +10,7 @@ module.exports.SITE_NAME = 'lp-info.chainedfarms.network'
 module.exports.DESCRIPTION = 'Boilerplate for a Static website using EJS and SASS'
 module.exports.SITE_URL = 'https://lp-info.chainedfarms.network'
 module.exports.DEVELOPER_NAME = 'Jongseung Lim'
-module.exports.DEVELOPER_URL = 'https://lp-info.chainedfarms.network'
+module.exports.DEVELOPER_URL = 'https://yieldfarming.info'
 // module.exports.GOOGLE_ANALYTICS_ID = ''
 
 module.exports.Dir = {
