@@ -2,6 +2,13 @@
   display: none;
 }
 
+.container {
+  display: flex;
+  flex-direction: column;
+  //   margin: auto;
+  transition: 0.5s all ease;
+}
+
 .disclaimer {
   border-radius: 5px;
   background-color: #27262c;
@@ -33,12 +40,16 @@
   background-color: #27262c;
 }
 
-table[id*='-table'] {
-  margin: 50px auto;
+table {
+  margin: auto;
   min-width: 80vw;
   max-width: 90%;
-  & tbody > tr > td {
-    border: 1px solid #e8b000;
+  &[id*='-table'] {
+    margin: 0px auto 50px;
+
+    &tbody > tr > td {
+      border: 1px solid #e8b000;
+    }
   }
 }
 

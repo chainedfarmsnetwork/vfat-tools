@@ -5,12 +5,12 @@ const {resolve} = require('path')
 
 module.exports.PP = ''
 module.exports.DEV_PATH = __dirname
-module.exports.SITE_TITLE = 'YieldFarming'
-module.exports.SITE_NAME = 'yieldfarming.info'
+module.exports.SITE_TITLE = 'Chained Farms Network Yieldfarming'
+module.exports.SITE_NAME = 'lp-info.chainedfarms.network'
 module.exports.DESCRIPTION = 'Boilerplate for a Static website using EJS and SASS'
-module.exports.SITE_URL = 'https://yieldfarming.info'
+module.exports.SITE_URL = 'https://lp-info.chainedfarms.network'
 module.exports.DEVELOPER_NAME = 'Jongseung Lim'
-module.exports.DEVELOPER_URL = 'https://yieldfarming.info'
+module.exports.DEVELOPER_URL = 'https://lp-info.chainedfarms.network'
 // module.exports.GOOGLE_ANALYTICS_ID = ''
 
 module.exports.Dir = {
@@ -26,5 +26,5 @@ module.exports.Dir = {
   vendor: resolve(__dirname, 'src', 'vendor'),
   views: resolve(__dirname, 'src', 'views'),
   pages: resolve(__dirname, 'src', 'views', 'pages'),
-  partials: resolve(__dirname, 'src', 'views', 'partials')
+  partials: resolve(__dirname, 'src', 'views', 'partials'),
 }
