@@ -1,3 +1,7 @@
+.hidden {
+  display: none;
+}
+
 .disclaimer {
   border-radius: 5px;
   background-color: #27262c;
@@ -27,6 +31,15 @@
 
 .pool-info {
   background-color: #27262c;
+}
+
+table[id*='-table'] {
+  margin: 50px auto;
+  min-width: 80vw;
+  max-width: 90%;
+  & tbody > tr > td {
+    border: 1px solid #e8b000;
+  }
 }
 
 #diffBody {

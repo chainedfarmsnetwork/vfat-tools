@@ -1797,9 +1797,7 @@ async function loadBscChefContract(
 
   function insertRowInTable(table, cellContent, header = false) {
     trow = table.insertRow(-1)
-    cell = header ? document.createElement('th') : document.createElement('td')
-    cell.innerHTML = cellContent
-    trow.appendChild(cell)
+    trow.innerHTML = cellContent
   }
 
   let aprs = []
@@ -1810,6 +1808,7 @@ async function loadBscChefContract(
     document.body.appendChild(poolTable)
 
     poolTable = document.getElementById(`${i}-table`)
+    poolTable.classList.add('hidden')
 
     if (poolPrices[i]) {
       const apr = printChefPool(

@@ -276,21 +276,14 @@ const _print_bold = function(message) {
   }
 }
 
-const _print_link = function(
-  message,
-  onclickFunction,
-  uuid = ID(),
-  add_carriage = true,
-  isTable = false,
-  poolTable = null,
-  insertRowInTable = null
-) {
-  if (!logger) {
+const _print_link = function(message, onclickFunction, uuid = ID(), add_carriage = true, isTable = false) {
+  let cellContent = ''
+  if (!logger || isTable) {
     logger = document.getElementById('log')
   }
 
   if (isTable) {
-    insertRowInTable(poolTable, '<a href="#" id=' + uuid + '>' + message + '</a>')
+    cellContent = '<a href="#" id=' + uuid + '>' + message + '</a>'
   } else {
     logger.innerHTML += '<a href="#" id=' + uuid + '>' + message + '</a>'
   }
@@ -304,6 +297,8 @@ const _print_link = function(
     onclickFunction()
     return false
   })
+
+  return cellContent
 }
 
 const _print_href = function(message, href) {
@@ -1451,24 +1446,7 @@ function getUniPrices(tokens, prices, pool) {
   var price = tvl / pool.totalSupply
   prices[pool.address] = {usd: price}
   var staked_tvl = pool.staked * price
-  let stakeTokenTicker = `[${t0.symbol}]-[${t1.symbol}]`
-  if (pool.is1inch) stakeTokenTicker += ' 1INCH LP'
-  else if (pool.symbol.includes('LSLP')) stakeTokenTicker += ' LSLP'
-  else if (pool.symbol.includes('BLP')) stakeTokenTicker += ' BLP'
-  else if (pool.symbol.includes('SLP')) stakeTokenTicker += ' SLP'
-  else if (pool.symbol.includes('Cake')) stakeTokenTicker += ' Cake LP'
-  else if (pool.name.includes('Value LP')) stakeTokenTicker += ' Value LP'
-  else if (pool.symbol.includes('PGL')) stakeTokenTicker += ' PGL'
-  else if (pool.symbol.includes('CS-LP')) stakeTokenTicker += ' CSS LP'
-  else if (pool.symbol.includes('DFYN')) stakeTokenTicker += ' DFYN LP'
-  else if (pool.symbol.includes('SPIRIT')) stakeTokenTicker += ' SPIRIT LP'
-  else if (pool.symbol.includes('spLP')) stakeTokenTicker += ' SPOOKY LP'
-  else if (pool.symbol.includes('Lv1')) stakeTokenTicker += ' STEAK LP'
-  else if (pool.symbol.includes('PLP')) stakeTokenTicker += ' Pure Swap LP'
-  else if (pool.symbol.includes('Field-LP')) stakeTokenTicker += ' Yield Fields LP'
-  else if (pool.symbol.includes('UPT')) stakeTokenTicker += ' Unic Swap LP'
-  else if (pool.symbol.includes('ELP')) stakeTokenTicker += ' ELK LP'
-  else stakeTokenTicker += ' Uni LP'
+  let stakeTokenTicker = `[${t0.symbol}]-[${t1.symbol}] Cake LP`
   return {
     t0: t0,
     p0: p0,
@@ -1482,6 +1460,7 @@ function getUniPrices(tokens, prices, pool) {
     stakeTokenTicker: stakeTokenTicker,
     // HERE
     print_price(chain = 'eth', poolTable, insertRowInTable, decimals, customURLs) {
+      poolTable.classList.remove('hidden')
       const t0address = t0.symbol == 'ETH' ? 'ETH' : t0.address
       const t1address = t1.symbol == 'ETH' ? 'ETH' : t1.address
       if (customURLs) {
@@ -1522,15 +1501,14 @@ function getUniPrices(tokens, prices, pool) {
             : ` <a href='${helperUrls[0]}' target='_blank'>[Add]</a> <a href='${helperUrls[1]}' target='_blank'>[Remove]</a> <a href='${helperUrls[2]}' target='_blank'>[Swap]</a>`
         insertRowInTable(
           poolTable,
-          `<a href='${poolUrl}' target='_blank'>${stakeTokenTicker}</a>${helperHrefs} Price: $${formatMoney(
+          `<td><a href='${poolUrl}' target='_blank'>[Pair Info]</a>${helperHrefs}</td><td>Price: $${formatMoney(
             price
-          )} TVL: $${formatMoney(tvl)}`
+          )} - TVL: $${formatMoney(tvl)}</td>`
         )
-        insertRowInTable(poolTable, `${t0.symbol} Price: $${displayPrice(p0)}`)
-        insertRowInTable(poolTable, `${t1.symbol} Price: $${displayPrice(p1)}`)
         insertRowInTable(
           poolTable,
-          `Staked: ${pool.staked.toFixed(decimals ?? 4)} ${pool.symbol} ($${formatMoney(staked_tvl)})`
+          `<td>${t0.symbol}: $${displayPrice(p0)} - ${t1.symbol}: $${displayPrice(p1)}</td>
+          <td>Staked: ${pool.staked.toFixed(decimals ?? 4)} ${pool.symbol} ($${formatMoney(staked_tvl)})</td>`
         )
       }
     },
@@ -1558,80 +1536,12 @@ function getUniPrices(tokens, prices, pool) {
           tvl: `$${formatMoney(tvl)}`,
         }
       } else {
-        const poolUrl = pool.is1inch
-          ? 'https://1inch.exchange/#/dao/pools'
-          : pool.symbol.includes('LSLP')
-          ? `https://info.linkswap.app/pair/${pool.address}`
-          : pool.symbol.includes('SLP')
-          ? `http://analytics.sushi.com/pairs/${pool.address}`
-          : pool.symbol.includes('Cake')
-          ? `https://pancakeswap.info/pair/${pool.address}`
-          : pool.symbol.includes('PGL')
-          ? `https://info.pangolin.exchange/#/pair/${pool.address}`
-          : pool.symbol.includes('CS-LP')
-          ? `https://app.coinswap.space/#/`
-          : pool.name.includes('Value LP')
-          ? `https://info.vswap.fi/pool/${pool.address}`
-          : pool.name.includes('BLP')
-          ? `https://info.bakeryswap.org/#/pair/${pool.address}`
-          : chain == 'matic'
-          ? `https://info.quickswap.exchange/pair/${pool.address}`
-          : `http://uniswap.info/pair/${pool.address}`
-        const helperUrls = pool.is1inch
-          ? []
-          : pool.symbol.includes('LSLP')
-          ? [
-              `https://linkswap.app/#/add/${t0address}/${t1address}`,
-              `https://linkswap.app/#/remove/${t0address}/${t1address}`,
-              `https://linkswap.app/#/swap?inputCurrency=${t0address}&outputCurrency=${t1address}`,
-            ]
-          : pool.symbol.includes('Cake')
-          ? [
-              `https://exchange.pancakeswap.finance/#/add/${t0address}/${t1address}`,
-              `https://exchange.pancakeswap.finance/#/remove/${t0address}/${t1address}`,
-              `https://exchange.pancakeswap.finance/#/swap?inputCurrency=${t0address}&outputCurrency=${t1address}`,
-            ]
-          : chain == 'matic'
-          ? [
-              `https://quickswap.exchange/#/add/${t0address}/${t1address}`,
-              `https://quickswap.exchange/#/remove/${t0address}/${t1address}`,
-              `https://quickswap.exchange/#/swap?inputCurrency=${t0address}&outputCurrency=${t1address}`,
-            ]
-          : pool.name.includes('Value LP')
-          ? [
-              `https://bsc.valuedefi.io/#/add/${t0address}/${t1address}`,
-              `https://bsc.valuedefi.io/#/remove/${t0address}/${t1address}`,
-              `https://bsc.valuedefi.io/#/swap?inputCurrency=${t0address}&outputCurrency=${t1address}`,
-            ]
-          : pool.symbol.includes('PGL')
-          ? [
-              `https://app.pangolin.exchange/#/add/${t0address}/${t1address}`,
-              `https://app.pangolin.exchange/#/remove/${t0address}/${t1address}`,
-              `https://app.pangolin.exchange/#/swap?inputCurrency=${t0address}&outputCurrency=${t1address}`,
-            ]
-          : pool.symbol.includes('CS-LP')
-          ? [
-              `https://app.coinswap.space/#/add/${t0address}/${t1address}`,
-              `https://app.coinswap.space/#/remove/${t0address}/${t1address}`,
-              `https://app.coinswap.space/#/swap?inputCurrency=${t0address}&outputCurrency=${t1address}`,
-            ]
-          : pool.symbol.includes('SLP')
-          ? [
-              `https://app.sushi.com/add/${t0address}/${t1address}`,
-              `https://app.sushi.com/remove/${t0address}/${t1address}`,
-              `https://app.sushi.com/swap?inputCurrency=${t0address}&outputCurrency=${t1address}`,
-            ]
-          : t0.symbol.includes('COMFI')
-          ? [
-              `https://app.uniswap.org/#/add/v2/${t0address}/${t1address}`,
-              `https://app.uniswap.org/#/remove/v2/${t0address}/${t1address}`,
-              `https://app.uniswap.org/#/swap?inputCurrency=${t0address}&outputCurrency=${t1address}`,
-            ]
-          : [
-              `https://app.uniswap.org/#/add/${t0address}/${t1address}`,
-              `https://app.uniswap.org/#/remove/${t0address}/${t1address}`,
-              `https://app.uniswap.org/#/swap?inputCurrency=${t0address}&outputCurrency=${t1address}`,
-            ]
+        const poolUrl = `https://pancakeswap.info/pair/${pool.address}`
+        const helperUrls = [
+          `https://exchange.pancakeswap.finance/#/add/${t0address}/${t1address}`,
+          `https://exchange.pancakeswap.finance/#/remove/${t0address}/${t1address}`,
+          `https://exchange.pancakeswap.finance/#/swap?inputCurrency=${t0address}&outputCurrency=${t1address}`,
+        ]
 
         return {
           pair_link: `<a href='${poolUrl}' target='_blank'>${stakeTokenTicker}</a>`,
@@ -1654,7 +1564,9 @@ function getUniPrices(tokens, prices, pool) {
       var q1user = userPct * q1
       insertRowInTable(
         poolTable,
-        `Your LP tokens comprise of ${q0user.toFixed(4)} ${t0.symbol} + ${q1user.toFixed(4)} ${t1.symbol}`
+        `<td colspan="2">Your LP tokens comprise of ${q0user.toFixed(4)} ${t0.symbol} + ${q1user.toFixed(4)} ${
+          t1.symbol
+        }</td>`
       )
     },
   }
@@ -1871,8 +1783,13 @@ function getErc20Prices(prices, pool, chain = 'eth') {
     price: price,
     stakeTokenTicker: pool.symbol,
     print_price(chain, poolTable, insertRowInTable) {
-      insertRowInTable(poolTable, `${name} Price: $${displayPrice(price)} Market Cap: $${formatMoney(tvl)}`)
-      insertRowInTable(poolTable, `Staked: ${pool.staked.toFixed(4)} ${pool.symbol} ($${formatMoney(staked_tvl)})`)
+      poolTable.classList.remove('hidden')
+      insertRowInTable(
+        poolTable,
+        `<td>${name}: $${displayPrice(price)} - Market Cap: $${formatMoney(tvl)}</td><td>Staked: ${pool.staked.toFixed(
+          4
+        )} ${pool.symbol} ($${formatMoney(staked_tvl)})</td>`
+      )
     },
     pair_links() {
       return {
@@ -1960,6 +1877,7 @@ async function getPoolInfo(app, chefContract, chefAddress, poolIndex, pendingRew
   }
 }
 
+// HERE
 function printAPR(
   rewardTokenTicker,
   rewardPrice,
@@ -1974,24 +1892,22 @@ function printAPR(
 ) {
   var usdPerWeek = poolRewardsPerWeek * rewardPrice
   fixedDecimals = fixedDecimals ?? 2
-  insertRowInTable(
-    poolTable,
-    `${rewardTokenTicker} Per Week: ${poolRewardsPerWeek.toFixed(fixedDecimals)} ($${formatMoney(usdPerWeek)})`
-  )
   var weeklyAPR = (usdPerWeek / staked_tvl) * 100
   var dailyAPR = weeklyAPR / 7
   var yearlyAPR = weeklyAPR * 52
   insertRowInTable(
     poolTable,
-    `APR: Day ${dailyAPR.toFixed(2)}% Week ${weeklyAPR.toFixed(2)}% Year ${yearlyAPR.toFixed(2)}%`
+    `<td>${rewardTokenTicker} Per Week: ${poolRewardsPerWeek.toFixed(fixedDecimals)} ($${formatMoney(
+      usdPerWeek
+    )})</td><td>APR: Day ${dailyAPR.toFixed(2)}% Week ${weeklyAPR.toFixed(2)}% Year ${yearlyAPR.toFixed(2)}%</td>`
   )
   var userStakedUsd = userStaked * poolTokenPrice
   var userStakedPct = (userStakedUsd / staked_tvl) * 100
   insertRowInTable(
     poolTable,
-    `You are staking ${userStaked.toFixed(fixedDecimals)} ${stakeTokenTicker} ($${formatMoney(
+    `<td colspan="2">You are staking ${userStaked.toFixed(fixedDecimals)} ${stakeTokenTicker} ($${formatMoney(
       userStakedUsd
-    )}), ${userStakedPct.toFixed(2)}% of the pool.`
+    )}), ${userStakedPct.toFixed(2)}% of the pool.</td>`
   )
   var userWeeklyRewards = (userStakedPct * poolRewardsPerWeek) / 100
   var userDailyRewards = userWeeklyRewards / 7
@@ -1999,10 +1915,10 @@ function printAPR(
   if (userStaked > 0) {
     insertRowInTable(
       poolTable,
-      `Estimated ${rewardTokenTicker} earnings:` +
+      `<td colspan="2">Estimated ${rewardTokenTicker} earnings:` +
         ` Day ${userDailyRewards.toFixed(fixedDecimals)} ($${formatMoney(userDailyRewards * rewardPrice)})` +
         ` Week ${userWeeklyRewards.toFixed(fixedDecimals)} ($${formatMoney(userWeeklyRewards * rewardPrice)})` +
-        ` Year ${userYearlyRewards.toFixed(fixedDecimals)} ($${formatMoney(userYearlyRewards * rewardPrice)})`
+        ` Year ${userYearlyRewards.toFixed(fixedDecimals)} ($${formatMoney(userYearlyRewards * rewardPrice)})</td>`
     )
   }
   return {
@@ -2045,60 +1961,56 @@ function printChefContractLinks(
   const claim = async function() {
     return chefContract_claim(chefAbi, chefAddr, poolIndex, App, pendingRewardsFunction, claimFunction)
   }
-  if (depositFee > 0) {
-    _print_link(
-      `Stake ${unstaked.toFixed(fixedDecimals)} ${stakeTokenTicker} - Fee ${depositFee}%`,
-      approveAndStake,
-      ID(),
-      false,
-      true,
-      poolTable,
-      insertRowInTable
-    )
+  const depositWithFee = _print_link(
+    `Stake ${unstaked.toFixed(fixedDecimals)} ${stakeTokenTicker} - Fee ${depositFee}%`,
+    approveAndStake,
+    ID(),
+    false,
+    true
+  )
+  const depositNoFee = _print_link(
+    `Stake ${unstaked.toFixed(fixedDecimals)} ${stakeTokenTicker}`,
+    approveAndStake,
+    ID(),
+    false,
+    true
+  )
+  const withdrawWithFee = _print_link(
+    `Unstake ${userStaked.toFixed(fixedDecimals)} ${stakeTokenTicker} - Fee ${withdrawFee}%`,
+    unstake,
+    ID(),
+    false,
+    true
+  )
+  const withdrawNoFee = _print_link(
+    `Unstake ${userStaked.toFixed(fixedDecimals)} ${stakeTokenTicker}`,
+    unstake,
+    ID(),
+    false,
+    true
+  )
+
+  if (depositFee > 0 && withdrawFee > 0) {
+    insertRowInTable(poolTable, `<td>${depositWithFee}</td><td>${withdrawWithFee}</td>`)
+  } else if (depositFee > 0) {
+    insertRowInTable(poolTable, `<td>${depositWithFee}</td><td>${withdrawNoFee}</td>`)
+  } else if (withdrawFee > 0) {
+    insertRowInTable(poolTable, `<td>${depositNoFee}</td><td>${withdrawWithFee}</td>`)
   } else {
-    _print_link(
-      `Stake ${unstaked.toFixed(fixedDecimals)} ${stakeTokenTicker}`,
-      approveAndStake,
-      ID(),
-      false,
-      true,
-      poolTable,
-      insertRowInTable
-    )
+    insertRowInTable(poolTable, `<td>${depositNoFee}</td><td>${withdrawNoFee}</td>`)
   }
-  if (withdrawFee > 0) {
-    _print_link(
-      `Unstake ${userStaked.toFixed(fixedDecimals)} ${stakeTokenTicker} - Fee ${withdrawFee}%`,
-      unstake,
-      ID(),
-      false,
-      true,
-      poolTable,
-      insertRowInTable
-    )
-  } else {
-    _print_link(
-      `Unstake ${userStaked.toFixed(fixedDecimals)} ${stakeTokenTicker}`,
-      unstake,
-      ID(),
-      false,
-      true,
-      poolTable,
-      insertRowInTable
-    )
-  }
-  _print_link(
+
+  const claimLink = _print_link(
     `Claim ${pendingRewardTokens.toFixed(fixedDecimals)} ${rewardTokenTicker} ($${formatMoney(
       pendingRewardTokens * rewardTokenPrice
     )})`,
     claim,
     ID(),
     false,
-    true,
-    poolTable,
-    insertRowInTable
+    true
   )
-  insertRowInTable(poolTable, `Staking or unstaking also claims rewards.`)
+  insertRowInTable(poolTable, `<td colspan="2">${claimLink}</td>`)
+  insertRowInTable(poolTable, `<td colspan="2">Staking or unstaking also claims rewards.</td>`)
 }
 
 function printChefPool(
@@ -2123,7 +2035,6 @@ function printChefPool(
   poolTable,
   insertRowInTable
 ) {
-  console.log(poolTable, insertRowInTable)
   fixedDecimals = fixedDecimals ?? 2
   const sp = poolInfo.stakedToken == null ? null : getPoolPrices(tokens, prices, poolInfo.stakedToken, chain)
   var poolRewardsPerWeek = (poolInfo.allocPoints / totalAllocPoints) * rewardsPerWeek
@@ -2132,7 +2043,7 @@ function printChefPool(
   const rewardPrice = getParameterCaseInsensitive(prices, rewardTokenAddress)?.usd
   const staked_tvl = sp?.staked_tvl ?? poolPrices.staked_tvl
 
-  insertRowInTable(poolTable, `PID: ${poolIndex}`)
+  insertRowInTable(poolTable, `<th colspan="2">PID: ${poolIndex} - ${poolPrices.stakeTokenTicker}</th>`)
   poolPrices.print_price(chain, poolTable, insertRowInTable)
   sp?.print_price(chain, poolTable, insertRowInTable)
   const apr = printAPR(
