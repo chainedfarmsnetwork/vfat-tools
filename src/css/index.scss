@@ -75,45 +75,43 @@ pre {
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  .modal {
-    background-color: rgba(255, 255, 255, 0.2);
-  }
+.modal {
+  background-color: rgba(255, 255, 255, 0.2);
+}
 
-  .modal-content {
-    background-color: #000;
-  }
+.modal-content {
+  background-color: #000;
+}
 
-  .modal-input {
-    background-color: rgba(255, 255, 255, 0.2);
-    color: #fff;
-  }
+.modal-input {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
 
-  #quick-dropdown {
-    color: #fff;
-    > li:hover,
-    > li.active {
-      background: rgba(255, 255, 255, 0.2);
-    }
+#quick-dropdown {
+  color: #fff;
+  > li:hover,
+  > li.active {
+    background: rgba(255, 255, 255, 0.2);
   }
+}
 
-  body {
-    background-color: #343135;
-    color: #f9f1e0;
-  }
+body {
+  background-color: #343135;
+  color: #f9f1e0;
+}
 
-  a {
-    color: #e8b000;
-    transition: 0.1s all linear;
-    &:hover {
-      color: rgb(194, 224, 0);
-    }
+a {
+  color: #e8b000;
+  transition: 0.1s all linear;
+  &:hover {
+    color: rgb(194, 224, 0);
   }
+}
 
-  .border {
-    border-style: solid;
-    border-color: #f9f1e0;
-  }
+.border {
+  border-style: solid;
+  border-color: #f9f1e0;
 }
 
 *,

@@ -1,16 +1,12 @@
 
 body {
     font-family: 'Teko', monospace;
+    background-color: #343135;
+    color: #F9F1E0;
 }
 
-@media (prefers-color-scheme: dark) {
-    body {
-        background-color: #343135;
-        color: #F9F1E0;
-    }
-    a {
-        color: #eb8000;
-    }
+a {
+    color: #eb8000;
 }
 
 *, *:before, *:after {
