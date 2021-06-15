@@ -314,8 +314,8 @@ async function main() {
   )
   _print('Reading smart contracts...\n')
 
-  const SFNX_CHEF_ADDR = '0x4184Bced3F4F8A9f09eF6d80b9A1d40564CAbBAb'
-  const rewardTokenTicker = 'SFN1'
+  const SFNX_CHEF_ADDR = '0x025345bfdCC374d1A27D59E27c3924C0800F12Af'
+  const rewardTokenTicker = 'SFN2'
   const SFNX_CHEF = new ethers.Contract(SFNX_CHEF_ADDR, SFNX_CHEF_ABI, App.provider)
 
   const rewardsPerWeek = (((await SFNX_CHEF.tokenPerBlock()) / 1e18) * 604800) / 3

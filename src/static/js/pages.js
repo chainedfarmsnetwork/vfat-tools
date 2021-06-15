@@ -32,6 +32,13 @@ const main = async () => {
         '642,000,000',
         '<a href="https://sub1.chainedfarms.network">Link</a>',
       ],
+      [
+        'The Slow Moo',
+        `<a href="/mainchain/sub2">Various</a>`,
+        'SFN2',
+        '278,000',
+        '<a href="https://sub2.chainedfarms.network">Link</a>',
+      ],
     ],
   }
 
